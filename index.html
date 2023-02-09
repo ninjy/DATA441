@@ -46,12 +46,46 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   <div class="w3-row w3-padding-64">
     <div class="w3-container">
       <h1 class="w3-text-indigo", style="font-family: Futura">INTRODUCTION TO LOCALLY WEIGHTED REGRESSION</h1>
-      <h3 class="w3-text-light-blue", style="font-family: Futura"> DEFINITION </h3>
-      <p style="font-family: 'Roboto', sans-serif"> Locally Weighted Regression (LWR) is a type of regression analysis that provides a flexible way to model 
-        non-linear relationships between a dependent variable and one or more independent variables. Unlike traditional 
-        regression techniques, which make global assumptions about the relationship between the dependent and independent variables, 
-        LWR models the relationship locally by considering the influence of nearby data points.
+      <h3 class="w3-text-orange", style="font-family: Futura"> DEFINITION </h3>
+      <p style="font-family: 'Roboto', sans-serif"> Locally Weighted Regression (LWR) is a type
+         of regression analysis to model the non-linear relationships between a dependent 
+         variable and one or more independent variables. While traditional regression 
+         techniques make a global assumption about the relationship between the dependent 
+         and independent variables, LWR models the relationship locally by considering 
+         the influence of nearby data points. 
       </p>
+      <h3 class="w3-text-orange", style="font-family: Futura"> METRIC </h3>
+      <p style="font-family: 'Roboto', sans-serif"> Since the LWR looks at the 
+        relationship between variables in a specific area, the local properties are 
+        relative to a metric. It is a method that computes the distance between 
+        two observations. The observations contain multiple features and can 
+        be viewed as vectors in a finite-dimensional Euclidean space if the 
+        features are numeric.
+      </p>
+      <p style="font-family: 'Roboto', sans-serif"> The rows of the matrix X are 
+        the independent observations and each row has a number of columns/features 
+        (denoted by p). As such, every row is a vector in R^p.The distance between 
+        two independent observations is the Euclidean distance between the two 
+        represented p- dimensional vectors. The equation is:
+      </p>
+      <p style="font-family: 'Roboto', sans-serif">
+        Based on n different observations, there will be n different weight vectors.
+      </p>
+      <h3 class="w3-text-orange", style="font-family: Futura"> WEIGHT FUNCTION </h3>
+      <p style="font-family: 'Roboto', sans-serif"> In LWR, a weight function (kernel) is 
+        used to assign weights to the data points based on their proximity to the target data 
+        point. If it is closer to the target data point, it will assign more weight to those data 
+        points and vice versa. Below is a graph obtained from the scikit-lego documentation:
+      </p>
+      <figure>
+        <img src='https://drive.google.com/uc?id=1bQmo-j35etyEWt7Ce8TSo01YSOhZQBeY'width='800px'/>
+        <figcaption>Example of how weights work</figcaption>
+        </figure>
+        
+        <figure>
+        <img src='https://drive.google.com/uc?id=19cIIGCSePtJbGVgRT6uWhcV2tNJKe9WG'width='800px'/>
+        <figcaption>Example of how locally weighted regression works</figcaption>
+        </figure>
     </div>
   </div>
 
