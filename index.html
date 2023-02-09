@@ -99,9 +99,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         <p style="font-family: 'Roboto', sans-serif">
           Let's look at an example of locally weighted regression from the class notebook. We're going to use the CAR data:
         </p>
+        <center><img src="dataset.png" style="width:200px;height:350px;"></center>
         <pre style = "background-color:lavender; color:darkblue">
           <code>
-            <img src="dataset.png">
             def lowess_reg(x, y, xnew, kern, tau):
               # tau is called bandwidth K((x-x[i])/(2*tau))
               # IMPORTANT: we expect x to the sorted increasingly
@@ -130,7 +130,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             lowess_reg(x,y,3200,Tricubic,1)
 
             plt.scatter(data['WGT'],data['MPG'])
-            <img src="before.png">
+
+            <img src="before.png" style="width:400px;height:300px;">
             
             # Sort by WGT
             data.sort_values(by='WGT')
@@ -141,16 +142,24 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             lowess_reg(x,y,2100,tricubic,0.01)
 
             xnew = np.arange(1500,5500,10)
-
             yhat = lowess_reg(x,y,xnew,tricubic,150)
 
             plt.scatter(data['WGT'],data['MPG'])
             plt.plot(xnew,yhat,color='orange',lw=2)
-            <img src="after.png">
+
+            <img src="after.png" style="width:400px;height:300px;">
    
           </code>
         </pre>
-        
+        <h3 class="w3-text-orange", style="font-family: Futura"> CONCLUSION </h3>
+        <p style="font-family: 'Roboto', sans-serif"> As you can see in the plot, the LWR 
+          model is able to capture the non-linear relationship between the dependent and 
+          independent variables by fitting curves to the data. By calculating the weighted 
+          average of the nearest training data points, the model can be used to predict new 
+          data points. Overall, LWR is a useful technique for modeling the relationship 
+          locally by considering the impact of nearby data points.
+       </p>
+
     </div>
   </div>
 
