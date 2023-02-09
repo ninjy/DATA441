@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-deep-purple.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<SCRIPT SRC='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></SCRIPT>
+<SCRIPT>MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}})</SCRIPT>
 <style>
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 .w3-sidebar {
@@ -62,20 +64,26 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         be viewed as vectors in a finite-dimensional Euclidean space if the 
         features are numeric.
       </p>
-      <p style="font-family: 'Roboto', sans-serif"> The rows of the matrix X are 
+      <p style="font-family: 'Roboto', sans-serif"> The rows of the matrix <i>X</i> are 
         the independent observations and each row has a number of columns/features 
-        (denoted by p). As such, every row is a vector in R^p.The distance between 
+        (denoted by <i>p</i>). As such, every row is a vector in <i>R^p</i>. The distance between 
         two independent observations is the Euclidean distance between the two 
-        represented p- dimensional vectors. The equation is:
+        represented <i>p</i>-dimensional vectors. The equation is:
+        $$ dist(\vec{v},\vec{w})=\sqrt{(v_1-w_1)^2+(v_2-w_2)^2+...(v_p-w_p)^2}$$
+
       </p>
       <p style="font-family: 'Roboto', sans-serif">
-        Based on n different observations, there will be n different weight vectors.
+        Based on <i>n</i> different observations, there will be <i>n</i> different weight vectors.
       </p>
       <h3 class="w3-text-orange", style="font-family: Futura"> WEIGHT FUNCTION </h3>
       <p style="font-family: 'Roboto', sans-serif"> In LWR, a weight function (kernel) is 
         used to assign weights to the data points based on their proximity to the target data 
         point. If it is closer to the target data point, it will assign more weight to those data 
-        points and vice versa. Below is a graph obtained from the scikit-lego documentation:
+        points and vice versa. Common weight functions used in LWR include Gaussian, triangular, 
+        and inverse distance weighting. The choice of weight function can have a significant 
+        impact on the results of the LWR model, so it's important to choose a weight function 
+        that is appropriate for the data being analyzed. Below is a graph obtained from the 
+        scikit-lego documentation:
       </p>
       <figure>
         <img src='https://drive.google.com/uc?id=1bQmo-j35etyEWt7Ce8TSo01YSOhZQBeY'width='800px'/>
@@ -86,6 +94,63 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         <img src='https://drive.google.com/uc?id=19cIIGCSePtJbGVgRT6uWhcV2tNJKe9WG'width='800px'/>
         <figcaption>Example of how locally weighted regression works</figcaption>
         </figure>
+
+        <h3 class="w3-text-orange", style="font-family: Futura"> APPLICATIONS WITH REAL DATA </h3>
+        <p style="font-family: 'Roboto', sans-serif">
+          Let's look at an example of locally weighted regression from the class notebook. We're going to use the CAR data:
+        </p>
+        <pre style = "background-color:lavender; color:darkblue">
+          <code>
+            <img src="dataset.png">
+            def lowess_reg(x, y, xnew, kern, tau):
+              # tau is called bandwidth K((x-x[i])/(2*tau))
+              # IMPORTANT: we expect x to the sorted increasingly
+              n = len(x)
+              yest = np.zeros(n)
+
+              # Initializing all weights from the bell shape kernel function    
+              w = np.array([kern((x - x[i])/(2*tau)) for i in range(n)])     
+              
+              # Looping through all x-points
+              for i in range(n):
+                  weights = w[:, i]
+                  b = np.array([np.sum(weights * y), np.sum(weights * y * x)])
+                  A = np.array([[np.sum(weights), np.sum(weights * x)],
+                              [np.sum(weights * x), np.sum(weights * x * x)]])
+                  # theta = linalg.solve(A, b) # A*theta = b
+                  theta, res, rnk, s = linalg.lstsq(A, b)
+                  yest[i] = theta[0] + theta[1] * x[i] 
+              f = interp1d(x, yest,fill_value='extrapolate')
+              return f(xnew)
+
+
+            x = data['WGT'].values
+            y = data['MPG'].values
+            
+            lowess_reg(x,y,3200,Tricubic,1)
+
+            plt.scatter(data['WGT'],data['MPG'])
+            <img src="before.png">
+            
+            # Sort by WGT
+            data.sort_values(by='WGT')
+
+            x = data['WGT'].values
+            y = data['MPG'].values
+
+            lowess_reg(x,y,2100,tricubic,0.01)
+
+            xnew = np.arange(1500,5500,10)
+
+            yhat = lowess_reg(x,y,xnew,tricubic,150)
+
+            plt.scatter(data['WGT'],data['MPG'])
+            plt.plot(xnew,yhat,color='orange',lw=2)
+            <img src="after.png">
+   
+          </code>
+        </pre>
+        
     </div>
   </div>
 
